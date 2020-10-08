@@ -1,0 +1,200 @@
+
+body {
+    padding: 0 10px 0 10px;
+    margin: 0;
+    font-family: "Open Sans", SansSerif, sans-serif;
+}
+
+#content{
+    /*column-count: 2;*/
+}
+
+#leftSection{
+
+}
+
+#rightSection{
+}
+
+#content{
+}
+
+#data{
+}
+
+#mynetwork {
+    width: 100%;
+    height: auto;
+    min-height: 1000px;
+    border: 1px solid lightgray;
+}
+
+.formula{
+    font-family: "Cambria Math", Cambria, Georgia, serif;
+    font-size: 20px;
+    font-weight: bold;
+    transition:  transform 2s;
+}
+
+.formulaVariable{
+    color: rgba(228, 63, 0, 0.96);
+}
+
+.formulaColor1{
+    color: rgba(0, 152, 1, 0.96);
+}
+
+.formulaColor2{
+    color: rgba(0, 75, 228, 0.96);
+}
+
+
+.row {
+    display: flex;
+}
+
+.column {
+    flex: 50%;
+}
+
+.columnSmall {
+    flex: 20%;
+}
+
+.columnLarge {
+    flex: 70%;
+}
+
+.topRight{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+
+
+.defaultButton{
+    -webkit-transition-duration: 0.4s; /* Safari */
+    transition-duration: 0.4s;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    margin: 3px;
+}
+
+.geenButton:hover{
+     background-color: #4CAF50; /* Green */
+     color: white;
+ }
+
+.blueButton:hover{
+    background-color: #008CBA;
+    color: white;
+}
+
+.redButton:hover{
+    background-color: #f44336;
+    color: white;
+}
+
+.grayButton:hover{
+    background-color: #e7e7e7;
+    color: black;
+}
+
+.blackButton:hover{
+    background-color: #555555;
+    color: white;
+}
+
+/*****/
+
+.greenButton{
+    background-color: #4CAF50; /* Green */
+    color: white;
+}
+
+.blueButton{
+    background-color: #008CBA;
+    color: white;
+}
+
+.redButton{
+    background-color: #f44336;
+    color: white;
+}
+
+.grayButton{
+    background-color: #e7e7e7;
+    color: black;
+}
+
+.blackButton{
+    background-color: #555555;
+    color: rgba(155, 97, 0, 0.96);
+    color: white;
+}
+
+/*****/
+
+
+.divOverflow{
+    overflow: auto;
+    max-height: 100vh;
+}
+
+.listItemTitle{
+    text-align: center;
+    text-decoration: underline;
+    font-weight: bold;
+    font-size: 15pt;
+}
+
+.center {
+    margin: auto;
+    width: 50%;
+    padding: 10px;
+}
+
+.smallThumb{
+    border: whitesmoke 3px solid;
+    margin: 5px;
+    width: 80px;
+    height: 80px;
+}
+
+.smallThumb span{
+}
+
+
+.listBox{
+    border:solid 1px grey;;
+    padding: 5px;
+}
+
+.mainFormula{
+    text-align: center;
+    line-height: 20pt;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 3px;
+    margin-bottom: 3px;
+    width: 70%;
+    border: 2px dashed #80000b;
+    padding: 10px;
+    display: block;
+    font-size: 20pt;
+}
+
+.centerInModal{
+    display: block;
+    margin: auto;
+}
+
+.nodeTooltip{
+    position: absolute;
+    visibility: hidden;
+    background:rgba(255, 255, 255, 0.7);
+    padding:10px;
+    transition: all 0.5s ease;
+}

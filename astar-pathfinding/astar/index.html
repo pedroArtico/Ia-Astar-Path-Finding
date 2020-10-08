@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0>
+    <link href="css/stylesheet.css" rel="stylesheet" type="text/css">
+    <link href="css/w3sModal.css" rel="stylesheet" type="text/css">
+    <link href="js/vis/vis.min.css" rel="stylesheet" type="text/css">
+
+    <script src="js/myUtils/deepCopy.js"></script>
+    <script src="js/myUtils/rgbaToHex.js"></script>
+
+    <script src="js/p5/p5.min.js"></script>
+    <script src="js/p5/addons/p5.dom.js"></script>
+    <script src="js/vis/vis.min.js"></script>
+      <script src="js/myUtils/MySimpleModal.js"></script>
+    <script src="js/vis/visNetHelper.js"></script>
+    <script src="js/Cell.js"></script>
+    <script src="js/setupCode.js"></script>
+    <script src="js/myUtils/util.js"></script>
+    <script src="js/pathfind.js"></script>
+
+
+
+  </head>
+  <body>
+
+
+      <div id="content" class="row" >
+        <div  class="column">
+
+          <div id="leftSection" >
+            <h1>Pathfinding</h1>
+            <script src="js/sketch.js"></script>
+          </div>
+
+          <div class="columnSmall" id="data">
+            <h2>Dados de execução</h2>
+          </div>
+        </div>
+
+        <div id="rightSection" class="column" >
+          <h2>Configurações</h2>
+          <div class="row">
+            <div id="configuration" class="column"></div>
+            <div id="configuration2" class="column"></div>
+          </div>
+          <div id="buttonArea"></div>
+
+          <div class="row">
+            <div class="columnLarge">
+                <h2>Informações sobre os nós</h2>
+                <div class="row">
+
+                  <div class="column" id="openedLog">
+                    <h3>Nós abertos</h3>
+                  </div>
+                  <div class="column" id="closedLog">
+                    <h3>Nós fechados</h3>
+                  </div>
+
+                  <div class="column" id="pathLog">
+                    <h3>Nós no caminho</h3>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+          <h1>Árvore</h1>
+          <div id="mynetwork">
+
+          </div>
+      </div>
+
+
+      <div id="savedExecutions">
+          <h2>Execuções salvas</h2>
+      </div>
+
+
+
+
+      <!--=============================================== V MODAL V ===========================================================-->
+
+     <div id="hardCodedModals">
+
+         <div id="id01" class="w3-modal">
+             <div class="w3-modal-content">
+
+                 <header class="w3-container w3-teal">
+      <span onclick="closeModal('id01')"
+            class="w3-button w3-display-topright">&times;</span>
+                     <h2>Configuração / Explicação da fórmula da heurística</h2>
+                 </header>
+
+                 <div id="modalContentText" style="padding: 10px;">
+                     A execução do algoritmo depende da função heurística utilizada, que é representada por uma Fórmula Geral.
+                     Esta Fórmula contém variáveis chamadas de pesos, sendo estas responsáveis por determinar se a busca
+                     será feita através do algoritmo A* ou do algoritmo Best-First, por exemplo. <br>
+
+                     Vale ressaltar que o usuário tem liberdade para manipular os valores dos pesos, escolhendo assim qual algoritmo deseja usar.
+                     <br>
+
+                     <strong>Para o A*:</strong><br>
+                     <span class='formula mainFormula'>f(n) = <span class="formulaColor1">g(n)</span> + <span class="formulaColor2">h(n)</span></span>
+                     <span class='formula mainFormula'>f(n) = w * <span class="formulaColor1">( y * dif(n) + z * rsk(n) + dist(previous, n))</span>+ x * <span class="formulaColor2">h(n)</span></span>
+
+                     <strong>Para o Best First:</strong><br>
+                     <span class='formula mainFormula'>f(n) = <span class="formulaColor2">h(n)</span></span>
+                     <span class='formula mainFormula'>f(n) = x * <span class="formulaColor2">h(n)</span></span>
+
+                     <!--
+                     <strong>Onde:</strong><br>
+                     <span class="forula formulaColor2">h(n)</span> é a distância do nó <span class="formula formula">n</span> até o nó objetivo.
+                      -->
+
+                     <br>
+                     <strong>Descrição das partes da fórmula:</strong>
+                     <br>
+
+
+                     <div class="row">
+
+                         <div class="column">
+                             <ul>
+                                 <li><span class='formula'>n</span>: nó para o qual a função heurística será calculada.</li>
+                                 <!--<li><span class='formula'>1</span>:  distância para andar de um nó ao outro.</li>-->
+                                 <li><span class='formula'>w</span>: peso que controla a importância de <span class='formula'>g(n)</span>, sendo considerados valores entre 0 e 1.</li>
+                                 <li><span class='formula'>( y * dif(n) + z * rsk(n) + dist(previous, n))</span>: cálculo de <span class='formula'>g(n)</span>, considerando de forma acumulada o tamanho, risco e dificuldade do caminho.</li>
+                                 <li><span class='formula'>y</span>: peso que controla a importância de <span class='formula'>dif(n)</span>, sendo considerados valores entre 0 e 1.</li>
+                                 <li><span class="formula">dist(p0, p1)</span>: é uma função que calcula a distância (Euclidiana ou Manhattan) entre dois nós.</li>
+                             </ul>
+                         </div>
+
+                         <div class="column">
+                             <ul>
+                                 <li><span class='formula'>dif(n)</span>: valor associado com a dificuldade de se passar pelo nó n.</li>
+                                 <li><span class='formula'>z</span>: peso que controla a importância de <span class='formula'>rsk(n)</span>, sendo considerados valores entre 0 e 1.</li>
+                                 <li><span class='formula'>rsk(n)</span>:risco associado ao percorrer a área (presença de animais perigosos ou pessoas hostis).</li>
+                                 <li><span class='formula'>x</span>: peso que controla a importância de <span class='formula'>h(n)</span>, sendo considerados valores entre 0 e 1.</li>
+                                 <li><span class='formula'>h(n)</span>: função que considera a distância do nó <span class='formula'>n</span> até o nó objetivo.</li>
+                             </ul>
+                         </div>
+
+
+                     </div>
+
+
+                     <!--
+                     <div class="row">
+                         <div class="column">
+                             <span class='formula'>f(n) = 1 + w * g(n) + x * h(n)</span><br>
+                             <ul>
+                                 <li><span class='formula'>f(n)</span>: a distância padrão para se andar de um nó ao outro.</li>
+                                 <li><span class='formula'>n</span>: o nó para o qual a função heurística será calculada.</li>
+                                 <li><span class='formula'>g(n)</span>: função que acumula três aspectos de dificuldade (mostrados a seguir) do caminho desde o início até o nó <span class="formula">n</span>.</li>
+                                 <li><span class='formula'>f(n)</span>: parte da heurística que considera a distância do nó <span class="formula">n</span> até o nó objetivo.</li>
+                                 <li><span class='formula'>w, x</span>: pesos que controlam a importância de cada parte da fórmula.</li>
+                             </ul>
+                         </div>
+                         <div class="column">
+                             <span class='formula'>g(n) = y * dif(n) + z * rsk(n)</span><br>
+                             <ul>
+                                 <li><span class='formula'>dif(n)</span>: o valor associado com a dificuldade de se passar pelo nó em questão. Se o nó for uma área de floresta densa, por exemplo, esse valor deve ser maior.</li>
+                                 <li><span class='formula'>rsk(n)</span>: o risco associado a percorrer aquela área (o que é diferente da dificuldade, pois no mapa apenas algumas poucas áreas terão risco maior que zero). Pode representar que existem animais ou pessoas hostis nesses lugares, portanto devem ser evitados.</li>
+                                 <li><span class='formula'>y, z</span>: pesos que controlam a importância de cada parte da fórmula.</li>
+                             </ul>
+                         </div>
+                     </div>
+                     -->
+
+
+                     <div id="algChoices">
+                         <strong>Definir algoritmo utilizado</strong><br>
+
+
+                     </div>
+                     <div id="resutlFormula" style="text-align: center">
+                     </div>
+                     <div class="row">
+                         <div class="column centerInModal" id="editwx">
+                         </div>
+
+                         <div class="column centerInModal" id="edityz">
+                         </div>
+                     </div>
+                     <div id="confirmBtn" style="width: 100%;" class="center">
+
+                     </div>
+                 </div>
+                 <footer class="w3-container w3-teal">
+                     <p></p>
+                 </footer>
+
+             </div>
+         </div>
+
+
+
+
+
+
+
+
+
+         <div id="id02" class="w3-modal">
+             <div class="w3-modal-content">
+
+                 <header class="w3-container w3-teal">
+      <span onclick="closeModal('id02');"
+            class="w3-button w3-display-topright">&times;</span>
+                     <h2>Legenda</h2>
+                 </header>
+                 <div style="padding: 10px;">
+
+
+                     <table>
+
+
+                         <tr>
+                             <td style="width: 33%; vertical-align: top;">
+                                 <table>
+                                     <tr><td><img src="imgs/water.PNG" class="smallThumb"> </td>               <td><span> <strong>Água: </strong>uma área com água, um obstáculo que o agente não consegue transpor.</span></td></tr>
+                                     <tr><td><img src="imgs/land.PNG" class="smallThumb"></td>                 <td><span> <strong>Terreno: </strong>uma área de terreno comum, quanto mais claro o tom de verde mais fácil a área é de ser percorrida, assim, o agente deve preferir essas partes para diminuir o custo do trajeto.</span></td></tr>
+                                     <tr><td><img src="imgs/dangerzone.PNG" class="smallThumb"> </td>          <td><span> <strong>Área de risco: </strong> uma área de terreno com risco, o agente pode passar por essas partes, mas deve evitá-las.</span></td></tr>
+                                     <tr><td><img src="imgs/road.png" class="smallThumb"> </td>          <td><span> <strong>Trilha ou pista: </strong> uma área que pode ser facilmente percorrida pelo agente.</span></td></tr>
+                                     <tr><td><img src="imgs/endpoint-startpoint.PNG" class="smallThumb"></td>  <td><span> <strong>Ponto de início ou de fim: </strong> ponto de início se estiver na parte superior esquerda do mapa, ou de fim (objetivo) se estiver na parte inferior direita.</span></td></tr>
+                                 </table>
+                             </td>
+
+                             <td style="width: 33%; vertical-align: top;">
+                                 <table>
+                                     <tr><td><img src="imgs/openednodes.PNG" class="smallThumb"> </td>         <td><span> <strong>Nó aberto: </strong> nós que estão na lista de nós abertos.</span></td></tr>
+                                     <tr><td><img src="imgs/closednodes.PNG" class="smallThumb">   </td>       <td><span> <strong>Nó fechado: </strong>  nós que estão na lista de nós fechados.</span></td></tr>
+                                     <tr><td><img src="imgs/path.PNG" class="smallThumb">  </td>               <td><span> <strong>Caminho: </strong> nós que fazem parte do caminho atual.</span></td></tr>
+                                 </table>
+                             </td>
+
+                             <td style="width: 33%; vertical-align: top">
+                                 <table>
+                                     <tr><td><img src="imgs/initialnode.PNG" class="smallThumb">  </td>               <td><span> <strong>Nó inicial: </strong> nó de início na árvore.</span></td></tr>
+                                     <tr><td><img src="imgs/endnode.PNG" class="smallThumb">  </td>               <td><span> <strong>Nó final: </strong> nó objetivo na árvore.</span></td></tr>
+                                 </table>
+                             </td>
+                         </tr>
+
+                     </table>
+
+                 </div>
+                 <footer class="w3-container w3-teal">
+                     <p></p>
+                 </footer>
+
+             </div>
+         </div>
+
+
+     </div>
+
+
+      <div id="modals"></div>
+
+
+  </body>
+</html>
+
+
+
+
